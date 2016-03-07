@@ -4,7 +4,6 @@ var config = require('./config/config'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     notify = require('gulp-notify'),
-    concat = require('gulp-concat'),
     merge = require('merge-stream');
 
 gulp.task('default', function() {
@@ -26,7 +25,6 @@ gulp.task('build', function() {
 
 gulp.task('dist', ['build'], function () {
     return gulp.src('build/**/*.js')
-      .pipe(concat('dist.js'))
       .pipe(uglify())
       .pipe(gulp.dest('dist/'))
       .pipe(notify({ message: 'dist complete' }));
@@ -35,9 +33,9 @@ gulp.task('dist', ['build'], function () {
 gulp.task('export', ['dist'], function () {
   gulp.src('dist/**/*.js')
     .pipe(gulp.dest(`${config.serverPath}/scriptcraft/plugins/ROT_js`))
-    .pipe(notify({ message: 'export complete' }));
+    .pipe(notify({ message: ['export complete'] }));
 });
 
 gulp.task('watch', function() {
-  gulp.watch('plugins/**/*.js', ['plugins']);
+  gulp.watch('plugins/**/*.js', ['export']);
 });
